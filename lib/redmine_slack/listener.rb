@@ -45,7 +45,7 @@ class SlackListener < Redmine::Hook::Listener
 		changed = journal.details.map { |d| status_changed d }
 		redminestatus = escape issue.status.to_s
 
-		if changed != false and changed != "[false]"
+		if changed != 0 and changed != "0"
 			speak "Changed true!: #{changed}", "#slack_test", attachment
 		end
 
@@ -158,13 +158,13 @@ private
 			title = I18n.t "field_#{key}"
 		end
 
-		result = false
+		result = 0
 
 		speak "Key: #{key}", "#slack_test", nil
 
 		case key
 		when "status"
-			result = true
+			result = 1
 		end
 
 		result
