@@ -45,7 +45,8 @@ class SlackListener < Redmine::Hook::Listener
 		changed = journal.details.map { |d| status_changed d }
 		redminestatus = escape issue.status.to_s
 
-		speak "Changed: #{changed}", "#slack_test", attachment
+		if changed != false and changed != "[false]"
+		speak "Changed true!: #{changed}", "#slack_test", attachment
 
 		if redminestatus != "Closed"
 			speak msg, channel, attachment
