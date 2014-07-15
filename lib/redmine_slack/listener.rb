@@ -37,13 +37,16 @@ class SlackListener < Redmine::Hook::Listener
 
 		return unless channel
 
-		msg = "<#{object_url issue}|#{escape issue}> - #{escape issue.status.to_s} >> #{escape issue.assigned_to.to_s}"
+		msg = "Update: <#{object_url issue}|#{escape issue}> - #{escape issue.status.to_s} >> #{escape issue.assigned_to.to_s}"
 
 		attachment = {}
 		attachment[:text] = escape journal.notes if journal.notes
 		attachment[:fields] = journal.details.map { |d| detail_to_field d }
+		redminestatus = escape issue.status.to_s
 
-		if escape issue.status.to_s != 'In Progress' and escape issue.status.to_s != 'Closed'
+		speak "#{redminestatus}", '#slack_test', attachment
+
+		if redminestatus != "In Progress" and redminestatus != "Closed"
 			speak msg, channel, attachment
 		end
 
