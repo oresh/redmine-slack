@@ -161,7 +161,7 @@ private
 		speak "Key: #{key}", "#slack_test", nil
 
 		case key
-		when "status_id"
+		when "status"
 			result = true
 		end
 
