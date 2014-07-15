@@ -25,8 +25,9 @@ class SlackListener < Redmine::Hook::Listener
 			:value => escape(issue.assigned_to.to_s),
 			:short => true
 		}]
-
-		speak msg, channel, attachment
+		if escape issue.is_private != true or escape issue.is_private.to_s == "true"
+			speak msg, channel, attachment
+		end
 	end
 
 	def controller_issues_edit_after_save(context={})
@@ -49,7 +50,9 @@ class SlackListener < Redmine::Hook::Listener
 		# speak "Has status changed: #{ischanged}", "#slack_test", attachment
 
 		if redminestatus != "Closed" and ischanged
-			speak msg, channel, attachment
+			if escape issue.is_private != true or escape issue.is_private.to_s == "true"
+				speak msg, channel, attachment
+			end
 		end
 
 	end
