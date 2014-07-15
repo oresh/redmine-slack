@@ -158,6 +158,8 @@ private
 
 		result = false
 
+		speak "Key: #{key}", "#slack_test", nil
+
 		case key
 		when "status_id"
 			result = true
