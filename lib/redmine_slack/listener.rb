@@ -46,11 +46,9 @@ class SlackListener < Redmine::Hook::Listener
 		ischanged = changed.include? 1
 		redminestatus = escape issue.status.to_s
 
-		if ischanged
-			speak "Has status changed: #{ischanged}", "#slack_test", attachment
-		end
+		# speak "Has status changed: #{ischanged}", "#slack_test", attachment
 
-		if redminestatus != "Closed"
+		if redminestatus != "Closed" and ischanged
 			speak msg, channel, attachment
 		end
 
