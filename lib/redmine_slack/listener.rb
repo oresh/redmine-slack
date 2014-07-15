@@ -43,7 +43,7 @@ class SlackListener < Redmine::Hook::Listener
 		attachment[:text] = escape journal.notes if journal.notes
 		attachment[:fields] = journal.details.map { |d| detail_to_field d }
 
-		if escape issue.status.to_s != 'In Progress' and escape issue.status.to_s != 'Closed'
+		if issue.status.to_s != 'In Progress' and issue.status.to_s != 'Closed'
 			speak msg, channel, attachment
 
 	end
