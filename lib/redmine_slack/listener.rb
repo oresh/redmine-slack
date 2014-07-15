@@ -42,11 +42,12 @@ class SlackListener < Redmine::Hook::Listener
 		attachment = {}
 		attachment[:text] = escape journal.notes if journal.notes
 		attachment[:fields] = journal.details.map { |d| detail_to_field d }
+		changed = journal.details.map { |d| status_changed d }
 		redminestatus = escape issue.status.to_s
 
-		speak "#{redminestatus}", '#slack_test', attachment
+		speak "Changed: #{changed}", "#slack_test", attachment
 
-		if redminestatus != "In Progress" and redminestatus != "Closed"
+		if redminestatus != "Closed"
 			speak msg, channel, attachment
 		end
 
@@ -140,6 +141,28 @@ private
 
 		result = { :title => title, :value => value }
 		result[:short] = true if short
+		result
+	end
+
+	def status_changed(detail)
+		if detail.property == "cf"
+			key = CustomField.find(detail.prop_key).name rescue nil
+			title = key
+		elsif detail.property == "attachment"
+			key = "attachment"
+			title = I18n.t :label_attachment
+		else
+			key = detail.prop_key.to_s.sub("_id", "")
+			title = I18n.t "field_#{key}"
+		end
+
+		result = false
+
+		case key
+		when "status_id"
+			result = true
+		end
+
 		result
 	end
 end
