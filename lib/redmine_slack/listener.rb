@@ -47,7 +47,7 @@ class SlackListener < Redmine::Hook::Listener
 		ischanged = changed.include? 1
 		redminestatus = escape issue.status.to_s
 
-		speak "Is private: #{escape issue.is_private}", "#slack_test", attachment
+		# speak "Is private: #{escape issue.is_private}", "#slack_test", attachment
 
 		if redminestatus != "Closed" and ischanged
 			if escape issue.is_private != true or escape issue.is_private.to_s == "true"
@@ -161,8 +161,6 @@ private
 		end
 
 		result = 0
-
-		speak "Key: #{key}", "#slack_test", nil
 
 		case key
 		when "status"
